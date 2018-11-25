@@ -1,0 +1,27 @@
+#!/bin/bash
+
+camera=/dev/video0
+d=/home/spycam/camera_history
+log=/dev/null
+#log=ffmpeg."${t}.log"
+#video="./video.${t}.mp4"
+limit='23:59:55'
+ext='mkv'
+max=100
+
+
+mkdir -p $d
+cd $d
+
+for i in {0..$(( max - 1 ))}; do
+  if test -e "${i}.${ext}"; then
+    mv "${i}.${ext}" "$(( i + 1 )).${ext}"
+  fi
+done
+
+if test -e "${max}.${ext}"; then 
+  rm "${max}.${ext}"
+fi
+
+ffmpeg -i "${camera}" -t '0:59:55' "0.${ext}" > "${log}" 2>&1
+#ffmpeg -i /dev/video0 -t '0:59:55' -c:v libx264 "${video}" > "${log}" 2>&1
