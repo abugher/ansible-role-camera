@@ -3,7 +3,7 @@
 camera=/dev/video0
 vid_dir=/home/spycam/camera_history
 log_dir=$vid_dir
-limit='23:59:55'
+limit='00:59:55'
 ext='mkv'
 max=100
 max_minus_one=$(( max - 1 ))
