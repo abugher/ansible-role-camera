@@ -1,5 +1,15 @@
 ---
 install_packages:
   - 'ffmpeg'
-  - 'libx264' # Not yet needed.
-  - 'libx264-148' # What is this?
+  - 'libx264-148'
+install_files:
+  - owner:                      'root'
+    group:                      'root'
+    mode:                       '0644'
+    src:                        'files/bin/spy'
+    dest:                       '/usr/local/bin/spy'
+  - owner:                      'root'
+    group:                      'root'
+    mode:                       '0644'
+    src:                        'files/cron.d/spy'
+    dest:                       '/etc/cron.d/spy'

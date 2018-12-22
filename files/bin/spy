@@ -1,27 +1,30 @@
 #!/bin/bash
 
 camera=/dev/video0
-d=/home/spycam/camera_history
-log=/dev/null
-#log=ffmpeg."${t}.log"
-#video="./video.${t}.mp4"
+vid_dir=/home/spycam/camera_history
+log_dir=$vid_dir
 limit='23:59:55'
 ext='mkv'
 max=100
+max_minus_one=$(( max - 1 ))
 
 
-mkdir -p $d
-cd $d
+mkdir -p $vid_dir
+mkdir -p $log_dir
 
-for i in {0..$(( max - 1 ))}; do
-  if test -e "${i}.${ext}"; then
-    mv "${i}.${ext}" "$(( i + 1 )).${ext}"
+for ((i=max_minus_one;i>=0;i--)); do
+  if test -e "$vid_dir/${i}.${ext}"; then
+    mv "$vid_dir/${i}.${ext}" "$vid_dir/$(( i + 1 )).${ext}"
+  fi
+  if test -e "$log_dir/${i}.log"; then
+    mv "$log_dir/${i}.log" "$log_dir/$(( i + 1 )).log"
+  fi
+  if test -e "$log_dir/${i}.ret"; then
+    mv "$log_dir/${i}.ret" "$log_dir/$(( i + 1 )).ret"
   fi
 done
 
-if test -e "${max}.${ext}"; then 
-  rm "${max}.${ext}"
-fi
-
-ffmpeg -i "${camera}" -t '0:59:55' "0.${ext}" > "${log}" 2>&1
+ffmpeg -loglevel warning -i "${camera}" -t $limit "$vid_dir/0.${ext}" > "$log_dir/0.log" 2>&1
 #ffmpeg -i /dev/video0 -t '0:59:55' -c:v libx264 "${video}" > "${log}" 2>&1
+
+echo $? > $log_dir/0.ret
