@@ -5,7 +5,7 @@ install_packages:
 install_files:
   - owner:                      'root'
     group:                      'root'
-    mode:                       '0644'
+    mode:                       '0755'
     src:                        'files/bin/spy'
     dest:                       '/usr/local/bin/spy'
   - owner:                      'root'
