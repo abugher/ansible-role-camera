@@ -9,6 +9,7 @@ vid_hist_dir=/home/spycam/camera_history
 limit=00:01:00
 ext=mkv
 max=10080 # a week
+unset ffmpeg_pid
 
 
 fail() {
@@ -46,13 +47,23 @@ record() {
   mkdir -p $vid_hist_dir/0 \
     || fail "Failed to create \$vid_hist_dir/0:  '${vid_hist_dir}/0'"
   oldpwd=$PWD
-  ffmpeg -loglevel warning -i $camera -t $limit $vid_hist_dir/0/video.$ext > $vid_hist_dir/0/ffmpeg.log 2>&1
+  ffmpeg -loglevel warning -i $camera -t $limit $vid_hist_dir/0/video.$ext > $vid_hist_dir/0/ffmpeg.log 2>&1 &
+  ffmpeg_pid=$!
+  wait $ffmpeg_pid
   #ffmpeg -i /dev/video0 -t '0:59:55' -c:v libx264 "${video}" > "${log}" 2>&1
   ret=$?
   echo $ret > $vid_hist_dir/0/ffmpeg.ret \
     || fail "Failed to record return status ('${ret}') in:  '${vid_hist_dir}/0/ffmpeg.ret'"
   if ! test 0 -eq $ret; then
     fail "Failed to record.  ffmpeg status:  ${ret}"
+  fi
+}
+
+
+kill_ffmpeg () {
+  if ! test -z "${ffmpeg_pid}"; then
+    kill $ffmpeg_pid \
+      || fail "Failed to kill ffmpeg, PID:  '${ffmpeg_pid}'"
   fi
 }
 
@@ -67,6 +78,7 @@ daemon() {
 
 main() {
   initialize
+  trap 'kill_ffmpeg' SIGINT SIGTERM
   daemon
 }
 
