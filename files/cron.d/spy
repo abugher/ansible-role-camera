@@ -1,4 +1,0 @@
-
-# m h dom mon dow user	command
-#13 00 * * * root nohup /usr/local/bin/spy > /var/log/spy.log 2>&1 &
-00 * * * * root nohup /usr/local/bin/spy > /var/log/spy.log 2>&1 &

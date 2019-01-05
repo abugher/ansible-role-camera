@@ -1,30 +1,78 @@
 #!/bin/bash
+# BUGS:
+#   - Many directories are missing from the resulting history, without much pattern.  All the odds up to 10 are missing.
+#   - The timestamps on the resulting directories were confusing.  When sorting by time (ls -lhtr), the order seemed random.
 
 camera=/dev/video0
-vid_dir=/home/spycam/camera_history
-log_dir=$vid_dir
-limit='00:59:55'
-ext='mkv'
-max=100
-max_minus_one=$(( max - 1 ))
+vid_hist_dir=/home/spycam/camera_history
+#limit=00:59:50
+limit=00:01:00
+ext=mkv
+max=10080 # a week
 
 
-mkdir -p $vid_dir
-mkdir -p $log_dir
+fail() {
+  echo "ERROR:  ${1}" >&2
+  exit 1
+}
 
-for ((i=max_minus_one;i>=0;i--)); do
-  if test -e "$vid_dir/${i}.${ext}"; then
-    mv "$vid_dir/${i}.${ext}" "$vid_dir/$(( i + 1 )).${ext}"
+
+debug() {
+  echo "DEBUG:  ${1}" >&2
+}
+
+
+initialize() {
+  mkdir -p $vid_hist_dir \
+    || fail "Failed to create \$vid_hist_dir:  '${vid_hist_dir}'"
+}
+
+
+rotate() {
+  rm -rf $vid_hist_dir/$max \
+    || fail "Failed to remove:  '${vid_hist_dir}/${max}'"
+  for ((i=max;i>0;i--)); do
+    if test -e $vid_hist_dir/$(( i - 1 )); then
+      mv $vid_hist_dir/$(( i - 1 )) $vid_hist_dir/$i \
+        || fail "Failed to move:  '${vid_hist_dir}/$(( i - 1 ))'"
+    fi
+  done
+  mkdir $vid_hist_dir/0 \
+    || fail "Failed to create \$vid_hist_dir/0:  '${vid_hist_dir}/0'"
+}
+
+
+record() {
+  mkdir -p $vid_hist_dir/0 \
+    || fail "Failed to create \$vid_hist_dir/0:  '${vid_hist_dir}/0'"
+  oldpwd=$PWD
+  ffmpeg -loglevel warning -i $camera -t $limit $vid_hist_dir/0/video.$ext > $vid_hist_dir/0/ffmpeg.log 2>&1
+  #ffmpeg -i /dev/video0 -t '0:59:55' -c:v libx264 "${video}" > "${log}" 2>&1
+  ret=$?
+  echo $ret > $vid_hist_dir/0/ffmpeg.ret \
+    || fail "Failed to record return status ('${ret}') in:  '${vid_hist_dir}/0/ffmpeg.ret'"
+  if ! test 0 -eq $ret; then
+    fail "Failed to record.  ffmpeg status:  ${ret}"
   fi
-  if test -e "$log_dir/${i}.log"; then
-    mv "$log_dir/${i}.log" "$log_dir/$(( i + 1 )).log"
-  fi
-  if test -e "$log_dir/${i}.ret"; then
-    mv "$log_dir/${i}.ret" "$log_dir/$(( i + 1 )).ret"
-  fi
-done
+}
 
-ffmpeg -loglevel warning -i "${camera}" -t $limit "$vid_dir/0.${ext}" > "$log_dir/0.log" 2>&1
-#ffmpeg -i /dev/video0 -t '0:59:55' -c:v libx264 "${video}" > "${log}" 2>&1
 
-echo $? > $log_dir/0.ret
+daemon() {
+  while true; do
+    debug "Rotate."
+    rotate
+    debug "Record."
+    record
+  done
+}
+
+
+main() {
+  debug "Initialize."
+  initialize
+  debug "Daemonize."
+  daemon
+}
+
+
+main
