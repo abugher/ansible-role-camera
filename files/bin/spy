@@ -59,18 +59,14 @@ record() {
 
 daemon() {
   while true; do
-    debug "Rotate."
     rotate
-    debug "Record."
     record
   done
 }
 
 
 main() {
-  debug "Initialize."
   initialize
-  debug "Daemonize."
   daemon
 }
 
