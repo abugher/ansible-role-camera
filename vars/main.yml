@@ -1,19 +1,7 @@
 ---
 install_packages:
-  - 'ffmpeg'
-  - 'libx264-148'
-install_files:
-  - owner:                      'root'
-    group:                      'root'
-    mode:                       '0755'
-    src:                        'files/bin/spy'
-    dest:                       '/usr/local/bin/spy'
-  - owner:                      'root'
-    group:                      'root'
-    mode:                       '0755'
-    src:                        'files/init.d/spy'
-    dest:                       '/etc/init.d/spy'
+  - 'motion'
 enable_services:
-  - 'spy'
+  - 'motion'
 restart_services:
-  - 'spy'
+  - 'motion'
