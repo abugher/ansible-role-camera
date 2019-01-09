@@ -1,5 +1,6 @@
 ---
 - include:                      '../tasks/install_packages.yml'
+- include:                      '../tasks/lines_in_files.yml'
 - include:                      '../tasks/enable_services.yml'
 - include:                      '../tasks/restart_services.yml'
-  when:                         install_packages_result.changed
+  when:                         install_packages_result.changed or lines_in_files_result.changed

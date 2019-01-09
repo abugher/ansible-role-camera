@@ -1,6 +1,10 @@
 ---
 install_packages:
   - 'motion'
+lines_in_files:
+  - line:                       'start_motion_daemon=yes'
+    regexp:                     '^start_motion_daemon'
+    dest:                       '/etc/default/motion'
 enable_services:
   - 'motion'
 restart_services:
