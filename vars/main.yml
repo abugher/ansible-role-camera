@@ -5,6 +5,9 @@ lines_in_files:
   - line:                       'start_motion_daemon=yes'
     regexp:                     '^start_motion_daemon'
     dest:                       '/etc/default/motion'
+  - line:                       'framerate 10'
+    regexp:                     '^framerate'
+    dest:                       '/etc/motion/motion.conf'
 enable_services:
   - 'motion'
 restart_services:
