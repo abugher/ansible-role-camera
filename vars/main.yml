@@ -5,7 +5,7 @@ lines_in_files:
   - line:                       'start_motion_daemon=yes'
     regexp:                     '^start_motion_daemon'
     dest:                       '/etc/default/motion'
-  - line:                       'rotate 180'
+  - line:                       'rotate 0'
     regexp:                     '^rotate'
     dest:                       '/etc/motion/motion.conf'
   - line:                       'width 960'
