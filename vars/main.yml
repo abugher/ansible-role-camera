@@ -33,6 +33,13 @@ lines_in_files:
   - line:                       'post_capture 5'
     regexp:                     '^post_capture'
     dest:                       '/etc/motion/motion.conf'
+pi_lines_in_files:
+  - line:                       'start_x=1'
+    regexp:                     '^start_x='
+    dest:                       '/boot/config.txt'
+  - line:                       'gpu_mem=128'
+    regexp:                     '^gpu_mem='
+    dest:                       '/boot/config.txt'
 enable_services:
   - 'motion'
 restart_services:

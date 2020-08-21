@@ -1,0 +1,5 @@
+- include:                      '../tasks/lines_in_files.yml'
+  vars:
+    lines_in_files:             "{{ pi_lines_in_files }}"
+- include:                      '../tasks/reboot.yml'
+  when:                         lines_in_files_result.changed
