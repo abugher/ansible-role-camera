@@ -2,9 +2,14 @@
 create_files:
   - owner:                      'root'
     group:                      'root'
-    mode:                       '0744'
+    mode:                       '0755'
     state:                      'directory'
     path:                       '/mnt/big_volume'
+shell_commands:
+  - user:                       'root'
+    chdir:                      '/'
+    creates:                    '/creates/nothing/always/run'
+    command:                    mountpoint /mnt/big_volume
 create_files_phase_2:
   - owner:                      'motion'
     group:                      'motion'
