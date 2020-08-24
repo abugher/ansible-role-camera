@@ -2,5 +2,4 @@
 - include:                      '../tasks/create_files.yml'
 - include:                      '../tasks/filesystems.yml'
 - include:                      '../tasks/mount.yml'
-- include:                      '../tasks/shell_commands.yml'
-  changed_when:                 False
+- include:                      '../tasks/shell_commands_ignore_result.yml'
