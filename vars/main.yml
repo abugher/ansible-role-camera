@@ -27,44 +27,72 @@ mount:
     state:                      'mounted'
 install_packages:
   - 'motion'
+
+width:                          960
+height:                         720
+fps:                            30
+threshold_percent:              .05
+threshold:                      "{{ ( width * height * threshold_percent / 100 ) | int }}"
+post_capture_seconds:           2
+post_capture_frames:            "{{ fps * post_capture_seconds }}"
+minimum_motion_seconds:         .5
+minimum_motion_frames:          "{{ fps * minimum_motion_seconds }}"
+
 lines_in_files:
+  # Daemon settings:
   - line:                       'start_motion_daemon=yes'
     regexp:                     '^start_motion_daemon '
     dest:                       '/etc/default/motion'
   - line:                       'target_dir /mnt/big_volume/motion'
     regexp:                     '^target_dir '
     dest:                       '/etc/motion/motion.conf'
-  - line:                       'rotate 180'
-    regexp:                     '^rotate '
+  # Debugging:
+  - line:                       'text_changes on'
+    regexp:                     '^text_changes '
     dest:                       '/etc/motion/motion.conf'
-  - line:                       'width 960'
+  - line:                       'locate_motion_mode on'
+    regexp:                     '^locate_motion_mode '
+    dest:                       '/etc/motion/motion.conf'
+  # Video parameters:
+  - line:                       "width {{ width }}"
     regexp:                     '^width '
     dest:                       '/etc/motion/motion.conf'
-  - line:                       'height 720'
+  - line:                       'height {{ height }}'
     regexp:                     '^height '
     dest:                       '/etc/motion/motion.conf'
-    # 960 * 720 * 10% = 69120 px
-  - line:                       'threshold 69120 '
-    regexp:                     '^threshold '
-    dest:                       '/etc/motion/motion.conf'
-    # 960 x 720 @ 30fps seems like the max for RPi4b with picam 2.1.
-  - line:                       'framerate 30'
+  - line:                       'framerate {{ fps }}'
     regexp:                     '^framerate '
     dest:                       '/etc/motion/motion.conf'
   - line:                       'quality 85'
     regexp:                     '^quality '
     dest:                       '/etc/motion/motion.conf'
-  - line:                       'lightswitch 50'
-    regexp:                     '^lightswitch '
-    dest:                       '/etc/motion/motion.conf'
-  - line:                       'minimum_motion_frames 5'
-    regexp:                     '^minimum_motion_frames '
-    dest:                       '/etc/motion/motion.conf'
   - line:                       'pre_capture 5'
     regexp:                     '^pre_capture '
     dest:                       '/etc/motion/motion.conf'
-  - line:                       'post_capture 5'
+  - line:                       "post_capture {{ post_capture_frames }}"
     regexp:                     '^post_capture '
+    dest:                       '/etc/motion/motion.conf'
+  - line:                       'rotate 180'
+    regexp:                     '^rotate '
+    dest:                       '/etc/motion/motion.conf'
+  # Capture parameters:
+  - line:                       "threshold {{ threshold }}"
+    regexp:                     '^threshold '
+    dest:                       '/etc/motion/motion.conf'
+  - line:                       "minimum_motion_frames {{ minimum_motion_frames }}"
+    regexp:                     '^minimum_motion_frames '
+    dest:                       '/etc/motion/motion.conf'
+  - line:                       'noise_tune off'
+    regexp:                     '^noise_tune '
+    dest:                       '/etc/motion/motion.conf'
+  - line:                       'noise_level 96'
+    regexp:                     '^noise_level '
+    dest:                       '/etc/motion/motion.conf'
+  - line:                       'despeckle_filter EedDl'
+    regexp:                     '^despeckle_filter '
+    dest:                       '/etc/motion/motion.conf'
+  - line:                       'lightswitch 1'
+    regexp:                     '^lightswitch '
     dest:                       '/etc/motion/motion.conf'
 pi_lines_in_files:
   - line:                       'start_x=1'
