@@ -10,7 +10,7 @@ Camera can dump an impressive amount of data into RAM.  Processing capability is
 
 I am curious what the number value for noise_level actually means.  I have to grope for the right value.
 
-Cloud movements:  A noise_level value of 128 ignores cloud movement, but filters out a lot of solid object movement, too.  A noise_level value of 96 seems to be more balanced, but still catches a lot of cloud movement.  Movement duration of cloud events seems to often be less than half a second.
+Cloud movements:  A noise_level value of 128 ignores cloud movement, but filters out a lot of solid object movement, too.  A noise_level value of 96 seems to be more balanced, but still catches a lot of cloud movement.  Movement duration of cloud events seems to often be less than half a second.  Setting minimum_motion_frames to the equivalent of a half second seems to work well in the afternoon, but didn't catch me watering plants the next morning.
 
 Event duration:  I have had some success tuning the parameters to start an event, but once an event starts, it tends to go on too long (or forever).  I suspect that the parameters to start an event are not all honored when deciding whether to continue an event.
 
