@@ -1,4 +1,12 @@
 ---
+system_groups:
+  - 'motion'
+system_users:
+  - 'motion'
+add_users_to_groups:
+  - user:                       'motion'
+    groups:
+      - 'video'
 create_files:
   - owner:                      'root'
     group:                      'root'
@@ -13,7 +21,7 @@ shell_commands_ignore_result:
 create_files_phase_2:
   - owner:                      'motion'
     group:                      'motion'
-    mode:                       '0700'
+    mode:                       '0750'
     state:                      'directory'
     path:                       '/mnt/big_volume/motion'
 filesystems:
@@ -47,10 +55,10 @@ lines_in_files:
     regexp:                     '^target_dir '
     dest:                       '/etc/motion/motion.conf'
   # Debugging:
-  - line:                       'text_changes on'
+  - line:                       'text_changes off'
     regexp:                     '^text_changes '
     dest:                       '/etc/motion/motion.conf'
-  - line:                       'locate_motion_mode on'
+  - line:                       'locate_motion_mode off'
     regexp:                     '^locate_motion_mode '
     dest:                       '/etc/motion/motion.conf'
   # Video parameters:
@@ -72,7 +80,7 @@ lines_in_files:
   - line:                       "post_capture {{ post_capture_frames }}"
     regexp:                     '^post_capture '
     dest:                       '/etc/motion/motion.conf'
-  - line:                       'rotate 180'
+  - line:                       'rotate 0'
     regexp:                     '^rotate '
     dest:                       '/etc/motion/motion.conf'
   # Capture parameters:

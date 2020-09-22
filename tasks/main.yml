@@ -1,5 +1,8 @@
 ---
 - include:                      'pi.yml'
+- include:                      '../tasks/system_groups.yml'
+- include:                      '../tasks/system_users.yml'
+- include:                      '../tasks/add_users_to_groups.yml'
 - include:                      'storage.yml'
 - include:                      '../tasks/create_files.yml'
   vars:
@@ -8,4 +11,6 @@
 - include:                      '../tasks/lines_in_files.yml'
 - include:                      '../tasks/enable_services.yml'
 - include:                      '../tasks/restart_services.yml'
-  when:                         install_packages_result.changed or lines_in_files_result.changed
+  when:                         install_packages_result.changed 
+                                or lines_in_files_result.changed
+                                or add_users_to_groups_result.changed
