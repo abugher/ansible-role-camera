@@ -39,11 +39,12 @@ install_packages:
 width:                          960
 height:                         720
 fps:                            24
-threshold_percent:              .05
+threshold_percent:              .01
 threshold:                      '{{ ( width * height * threshold_percent / 100 ) | int }}'
-post_capture_seconds:           2
+post_capture_seconds:           5
 post_capture_frames:            '{{ fps * post_capture_seconds }}'
-minimum_motion_seconds:         .5
+pre_capture_frames:             5
+minimum_motion_seconds:         .1
 minimum_motion_frames:          '{{ fps * minimum_motion_seconds }}'
 snapshot_interval:              0
 output_pictures:                'off'
@@ -83,7 +84,7 @@ lines_in_files:
   - line:                       '{{ quality_comment | default() }}quality 85'
     regexp:                     '#{0,1}^quality '
     dest:                       '/etc/motion/motion.conf'
-  - line:                       '{{ pre_capture_comment | default() }}pre_capture 5'
+  - line:                       '{{ pre_capture_frames_comment | default() }}pre_capture {{ pre_capture_frames }}'
     regexp:                     '#{0,1}^pre_capture '
     dest:                       '/etc/motion/motion.conf'
   - line:                       '{{ post_capture_comment | default() }}post_capture {{ post_capture_frames | default() }}'
