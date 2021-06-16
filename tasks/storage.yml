@@ -1,5 +1,5 @@
 ---
-- include:                      '../tasks/create_files.yml'
-- include:                      '../tasks/filesystems.yml'
-- include:                      '../tasks/mount.yml'
-- include:                      '../tasks/shell_commands_ignore_result.yml'
+#- include:                      '../tasks/create_files.yml'
+#- include:                      '../tasks/filesystems.yml'
+#- include:                      '../tasks/mount.yml'
+#- include:                      '../tasks/shell_commands_ignore_result.yml'

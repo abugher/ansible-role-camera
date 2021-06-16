@@ -7,32 +7,33 @@ add_users_to_groups:
   - user:                       'motion'
     groups:
       - 'video'
-create_files:
-  - owner:                      'root'
-    group:                      'root'
+#create_files:
+#  - owner:                      'root'
+#    group:                      'root'
     mode:                       '0755'
-    state:                      'directory'
-    path:                       '/mnt/big_volume'
-shell_commands_ignore_result:
-  - user:                       'root'
-    chdir:                      '/'
-    creates:                    '/creates/nothing/always/run'
-    command:                    mountpoint /mnt/big_volume
-create_files_phase_2:
+#    state:                      'directory'
+#    path:                       '/mnt/big_volume'
+#shell_commands_ignore_result:
+#  - user:                       'root'
+#    chdir:                      '/'
+#    creates:                    '/creates/nothing/always/run'
+#    command:                    mountpoint /mnt/big_volume
+#create_files_phase_2:
+create_files:
   - owner:                      'motion'
     group:                      'motion'
     mode:                       '0750'
     state:                      'directory'
     path:                       '/mnt/big_volume/motion'
-filesystems:
-  - dev:                        '/dev/mapper/big_volume'
-    fstype:                     'ext4'
-mount:
-  - name:                       '/mnt/big_volume'
-    fstype:                     'ext4'
-    opts:                       'noatime,noauto,nodev,nosuid,noexec'
-    src:                        '/dev/mapper/big_volume'
-    state:                      'mounted'
+#filesystems:
+#  - dev:                        '/dev/mapper/big_volume'
+#    fstype:                     'ext4'
+#mount:
+#  - name:                       '/mnt/big_volume'
+#    fstype:                     'ext4'
+#    opts:                       'noatime,noauto,nodev,nosuid,noexec'
+#    src:                        '/dev/mapper/big_volume'
+#    state:                      'mounted'
 install_packages:
   - 'motion'
 
