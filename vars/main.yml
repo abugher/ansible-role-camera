@@ -22,7 +22,7 @@ add_users_to_groups:
 create_files:
   - owner:                      'motion'
     group:                      'motion'
-    mode:                       '0750'
+    mode:                       '0755'
     state:                      'directory'
     path:                       '/mnt/big_volume/motion'
 #filesystems:
