@@ -13,3 +13,4 @@
   when:                         install_packages_result.changed 
                                 or lines_in_files_result.changed
                                 or add_users_to_groups_result.changed
+                                or install_files_result.changed
