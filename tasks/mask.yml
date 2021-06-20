@@ -1,0 +1,10 @@
+---
+- include:              '../tasks/install_files.yml'
+  vars:
+    install_files:
+      - owner:          'root'
+        group:          'root'
+        mode:           '0644'
+        src:            "../../sensitive_ansible/roles/camera/files/conf/mask_files/{{ hostvars[inventory_hostname]['motion_mask_file'] }}"
+        dest:           '/etc/motion/mask_file.pgm'
+  when:                 hostvars[inventory_hostname]['motion_mask_file'] is defined

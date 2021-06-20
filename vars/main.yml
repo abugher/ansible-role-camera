@@ -136,6 +136,9 @@ lines_in_files:
   - line:                       '{{ lightswitch_comment | default() }}lightswitch 1'
     regexp:                     '#{0,1}^lightswitch '
     dest:                       '/etc/motion/motion.conf'
+  - line:                       'mask_file /etc/motion/mask_file.pgm'
+    regexp:                     '#{0,1}^mask_file '
+    dest:                       '/etc/motion/motion.conf'
 pi_lines_in_files:
   - line:                       'start_x=1'
     regexp:                     '#{0,1}^start_x='
