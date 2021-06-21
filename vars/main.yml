@@ -40,7 +40,7 @@ install_packages:
 width:                          960
 height:                         720
 fps:                            24
-threshold_percent:              .01
+threshold_percent:              .1
 threshold:                      '{{ ( width * height * threshold_percent / 100 ) | int }}'
 post_capture_seconds:           5
 post_capture_frames:            '{{ fps * post_capture_seconds }}'
