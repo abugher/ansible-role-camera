@@ -1,8 +1,0 @@
----
-dependencies:
-  - role:       'time'
-    when:       skipdeps is not defined
-  - role:       'nginx'
-    when:       skipdeps is not defined
-  - role:       'encrypted_storage'
-    when:       skipdeps is not defined

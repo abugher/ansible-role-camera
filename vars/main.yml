@@ -150,3 +150,6 @@ enable_services:
   - 'motion'
 restart_services:
   - 'motion'
+  - 'time'
+  - 'nginx'
+  - 'encrypted_storage'
