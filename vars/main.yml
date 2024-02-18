@@ -10,7 +10,7 @@ add_users_to_groups:
 #create_files:
 #  - owner:                      'root'
 #    group:                      'root'
-    mode:                       '0755'
+#    mode:                       '0755'
 #    state:                      'directory'
 #    path:                       '/mnt/big_volume'
 #shell_commands_ignore_result:
