@@ -1,5 +1,5 @@
 ---
-- include:              '../tasks/install_files.yml'
+- include_tasks:        '../tasks/install_files.yml'
   vars:
     install_files:
       - owner:          'root'
