@@ -2,4 +2,4 @@
 #- include_tasks:                '../tasks/create_files.yml'
 #- include_tasks:                '../tasks/filesystems.yml'
 #- include_tasks:                '../tasks/mount.yml'
-#- include_tasks:                '../tasks/shell_commands_ignore_result.yml'
+#- include_tasks:                '../tasks/shell_commands_ignore_change.yml'
