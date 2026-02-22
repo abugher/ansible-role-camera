@@ -1,6 +1,6 @@
 ---
-- include_tasks:                '../tasks/lines_in_files.yml'
+- include_tasks:                'tasks/common/lines_in_files.yml'
   vars:
     lines_in_files:             "{{ pi_lines_in_files }}"
-- include_tasks:                '../tasks/reboot.yml'
+- include_tasks:                'tasks/common/reboot.yml'
   when:                         lines_in_files_result.changed
